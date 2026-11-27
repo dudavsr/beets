@@ -1729,3 +1729,10 @@ class DefaultTemplateFunctions:
         if field in self.item:
             return trueval if trueval else self.item.formatted().get(field)
         return falseval
+
+def proc_item_data(obj, tmp, val=None):
+    res = obj.get(tmp)
+    if res:
+        return res
+    return val
+    
