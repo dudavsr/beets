@@ -281,7 +281,7 @@ class Album(LibModel):
 
     Reflects the library's "albums" table, including album art.
     """
-
+# verificacao de nomenclatura
     artpath: bytes | None
 
     _table = "albums"
@@ -366,7 +366,7 @@ class Album(LibModel):
             f"LEFT JOIN {cls._relation._table} "
             f"ON {cls._table}.id = {cls._relation._table}.album_id"
         )
-
+    # verificacao de nomenclatura
     @property
     def art_filepath(self) -> Path | None:
         """The path to album's cover picture as pathlib.Path."""
@@ -421,7 +421,7 @@ class Album(LibModel):
         if with_items:
             for item in self.items():
                 item.remove(delete, False)
-
+# verificacao de nomenclatura
     def move_art(
         self,
         operation: MoveOperation = MoveOperation.MOVE,
@@ -819,7 +819,7 @@ class Item(LibModel):
         return super().duplicates_query(fields) & dbcore.query.NoneQuery(
             "album_id"
         )
-
+# verificacao de nomenclatura
     @classmethod
     def from_path(cls, path: util.PathLike) -> Self:
         """Create a new item from the media file at the specified path."""
@@ -841,7 +841,7 @@ class Item(LibModel):
 
         if changed and key in MediaFile.fields():
             self.mtime = 0  # Reset mtime on dirty.
-
+# verificacao de nomenclatura
     def __getitem__(self, key: str) -> Any:
         """Get the value for a field, falling back to the album if
         necessary.
@@ -876,7 +876,7 @@ class Item(LibModel):
             keys |= self._cached_album.keys(computed=computed)
 
         return dict.fromkeys(keys).keys()
-
+# verificacao de nomenclatura
     def get(
         self, key: str, default: Any = None, with_album: bool = True
     ) -> Any:
@@ -1729,3 +1729,10 @@ class DefaultTemplateFunctions:
         if field in self.item:
             return trueval if trueval else self.item.formatted().get(field)
         return falseval
+
+def proc_item_data(obj, tmp, val=None):
+    res = obj.get(tmp)
+    if res:
+        return res
+    return val
+    
